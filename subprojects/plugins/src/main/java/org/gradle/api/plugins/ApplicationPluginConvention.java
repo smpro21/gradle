@@ -28,6 +28,7 @@ public class ApplicationPluginConvention {
     private String applicationName;
     private String mainClassName;
     private Iterable<String> applicationDefaultJvmArgs = new ArrayList<String>();
+    private String executableDir;
     private CopySpec applicationDistribution;
 
     private final Project project;
@@ -35,6 +36,7 @@ public class ApplicationPluginConvention {
     public ApplicationPluginConvention(Project project) {
         this.project = project;
         applicationDistribution = project.copySpec();
+        executableDir = "bin";
     }
 
     /**
@@ -77,6 +79,17 @@ public class ApplicationPluginConvention {
      */
     public void setApplicationDefaultJvmArgs(Iterable<String> applicationDefaultJvmArgs) {
         this.applicationDefaultJvmArgs = applicationDefaultJvmArgs;
+    }
+
+    /**
+     * Directory to place executables in
+     */
+    public String getExecutableDir() {
+        return executableDir;
+    }
+
+    public void setExecutableDir(String executableDir) {
+        this.executableDir = executableDir;
     }
 
     /**

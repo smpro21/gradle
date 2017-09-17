@@ -101,6 +101,7 @@ import java.io.File;
 public class CreateStartScripts extends ConventionTask {
 
     private File outputDir;
+    private String scriptDir = "bin";
     private String mainClassName;
     private Iterable<String> defaultJvmOpts = Lists.newLinkedList();
     private String applicationName;
@@ -170,6 +171,19 @@ public class CreateStartScripts extends ConventionTask {
 
     public void setOutputDir(File outputDir) {
         this.outputDir = outputDir;
+    }
+
+    /**
+     * The directory to write the scripts into in the distribution.
+     */
+    @Input
+    @Optional
+    public String getScriptDir() {
+        return scriptDir;
+    }
+
+    public void setScriptDir(String scriptDir) {
+        this.scriptDir = scriptDir;
     }
 
     /**
@@ -268,7 +282,7 @@ public class CreateStartScripts extends ConventionTask {
         generator.setOptsEnvironmentVar(getOptsEnvironmentVar());
         generator.setExitEnvironmentVar(getExitEnvironmentVar());
         generator.setClasspath(getRelativeClasspath());
-        generator.setScriptRelPath("bin/" + getUnixScript().getName());
+        generator.setScriptRelPath(getScriptDir() + "/" + getUnixScript().getName());
         generator.generateUnixScript(getUnixScript());
         generator.generateWindowsScript(getWindowsScript());
     }
