@@ -46,7 +46,7 @@ abstract class AbstractModuleDependencyResolveTest extends AbstractHttpDependenc
     }
 
     boolean usesJavaLibraryVariants() {
-        GradleMetadataResolveRunner.isGradleMetadataEnabled() || (useMaven() && isExperimentalEnabled())
+        GradleMetadataResolveRunner.isGradleMetadataEnabled() || useMaven()
     }
 
     String getTestConfiguration() { 'conf' }

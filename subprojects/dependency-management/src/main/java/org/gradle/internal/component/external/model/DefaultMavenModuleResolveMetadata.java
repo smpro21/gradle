@@ -170,7 +170,7 @@ public class DefaultMavenModuleResolveMetadata extends AbstractModuleComponentRe
     }
 
     private boolean isJavaLibrary() {
-        return experimentalFeatures.isEnabled() && (isKnownJarPackaging() || isPomPackaging());
+        return isKnownJarPackaging() || isPomPackaging();
     }
 
     @Nullable
