@@ -259,4 +259,9 @@ public abstract class DelegatingMavenModule<T extends MavenModule> implements Ma
     public void withVariant(String name, Closure<?> action) {
         backingModule.withVariant(name, action);
     }
+
+    @Override
+    public Map<String, String> getAttributes() {
+        return backingModule.getAttributes();
+    }
 }

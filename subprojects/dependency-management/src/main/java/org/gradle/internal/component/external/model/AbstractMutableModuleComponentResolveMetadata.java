@@ -86,6 +86,7 @@ abstract class AbstractMutableModuleComponentResolveMetadata implements MutableM
         this.moduleSource = metadata.getSource();
         this.contentHash = metadata.getContentHash();
         this.variants = metadata.getVariants();
+        this.componentLevelAttributes = metadata.getAttributes();
     }
 
     @Override

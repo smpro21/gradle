@@ -202,6 +202,7 @@ public class ModuleMetadataSerializer {
 
         private void writeInfoSection(ModuleComponentResolveMetadata metadata) throws IOException {
             writeId(metadata.getComponentId());
+            writeAttributes(metadata.getAttributes());
         }
 
         private void writeExtraInfo(Map<NamespaceId, String> extraInfo) throws IOException {
@@ -360,6 +361,7 @@ public class ModuleMetadataSerializer {
         private final ExcludeRuleConverter excludeRuleConverter;
         private ModuleComponentIdentifier id;
         private ModuleVersionIdentifier mvi;
+        private ImmutableAttributes attributes;
 
         private Reader(Decoder decoder, ImmutableModuleIdentifierFactory moduleIdentifierFactory, ImmutableAttributesFactory attributesFactory, NamedObjectInstantiator instantiator) {
             this.decoder = decoder;
@@ -395,6 +397,7 @@ public class ModuleMetadataSerializer {
             metadata.setSnapshotTimestamp(readNullableString());
             metadata.setPackaging(readNullableString());
             metadata.setRelocated(readBoolean());
+            metadata.setAttributes(attributes);
             readVariants(metadata);
             return metadata;
         }
@@ -474,6 +477,7 @@ public class ModuleMetadataSerializer {
             String branch = readNullableString();
             metadata.setBranch(branch);
             metadata.setExtraAttributes(extraAttributes);
+            metadata.setAttributes(attributes);
             readVariants(metadata);
             return metadata;
         }
@@ -481,6 +485,7 @@ public class ModuleMetadataSerializer {
         private void readInfoSection() throws IOException {
             id = readId();
             mvi = moduleIdentifierFactory.moduleWithVersion(id.getGroup(), id.getModule(), id.getVersion());
+            attributes = readAttributes();
         }
 
         private ModuleComponentIdentifier readId() throws IOException {

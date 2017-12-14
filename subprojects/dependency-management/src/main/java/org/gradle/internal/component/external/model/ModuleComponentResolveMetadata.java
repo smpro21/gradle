@@ -16,6 +16,7 @@
 package org.gradle.internal.component.external.model;
 
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.attributes.AttributeContainer;
 import org.gradle.internal.component.model.ComponentResolveMetadata;
 import org.gradle.internal.component.model.ModuleSource;
 import org.gradle.internal.hash.HashValue;
@@ -54,4 +55,6 @@ public interface ModuleComponentResolveMetadata extends ComponentResolveMetadata
      * Returns the hash of the resource(s) from which this metadata was created.
      */
     HashValue getContentHash();
+
+    AttributeContainer getAttributes();
 }

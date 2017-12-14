@@ -404,7 +404,7 @@ class IvyFileModule extends AbstractModule implements IvyModule {
                     v.artifacts ?: defaultArtifacts
                 )
             },
-            ['org.gradle.status': status]
+            attributes + ['org.gradle.status': status]
         )
 
         adapter.publishTo(moduleDir)

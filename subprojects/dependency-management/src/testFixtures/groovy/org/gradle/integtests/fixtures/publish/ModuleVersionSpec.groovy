@@ -37,6 +37,7 @@ class ModuleVersionSpec {
     private final List<Object> constraints = []
     private final List<VariantSpec> variants = []
     private final List<Closure<?>> withModule = []
+    private final Map<String, String> componentLevelAttributes = [:]
     private List<InteractionExpectation> expectGetMetadata = [InteractionExpectation.NONE]
     private List<ArtifactExpectation> expectGetArtifact = []
 
@@ -99,6 +100,10 @@ class ModuleVersionSpec {
 
     void expectGetVariantArtifacts(String variant) {
         expectGetArtifact << new ArtifactExpectation(InteractionExpectation.GET, new VariantArtifacts(variant))
+    }
+
+    void attribute(String key, String value) {
+        componentLevelAttributes[key] = value
     }
 
     void variant(String variant, Map<String, String> attributes) {
@@ -231,6 +236,11 @@ class ModuleVersionSpec {
                             break
                     }
                 }
+            }
+        }
+        if (componentLevelAttributes) {
+            componentLevelAttributes.each { key, value ->
+                module.attributes[key] = value
             }
         }
         if (variants) {
