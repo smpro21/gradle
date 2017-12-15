@@ -17,6 +17,7 @@
 package org.gradle.api.artifacts.result;
 
 import org.gradle.api.Incubating;
+import org.gradle.internal.HasInternalProtocol;
 
 /**
  * Answers the question why a component was selected during the dependency resolution.
@@ -24,6 +25,7 @@ import org.gradle.api.Incubating;
  * @since 1.3
  */
 @Incubating
+@HasInternalProtocol
 public interface ComponentSelectionReason {
 
     /**
