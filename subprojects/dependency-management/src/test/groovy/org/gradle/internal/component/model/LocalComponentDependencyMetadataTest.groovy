@@ -80,7 +80,7 @@ class LocalComponentDependencyMetadataTest extends Specification {
         toComponent.getConfiguration("to") >> toConfig
 
         expect:
-        dep.selectConfigurations(attributes([:]), toComponent, attributesSchema, factory) == [toConfig]
+        dep.selectConfigurations(attributes([:]), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures()) == [toConfig]
     }
 
     @Unroll("selects configuration '#expected' from target component (#scenario)")
@@ -98,7 +98,7 @@ class LocalComponentDependencyMetadataTest extends Specification {
             isCanBeConsumed() >> true
         }
         def toComponent = Stub(ComponentResolveMetadata) {
-            getVariantsForGraphTraversal(_) >> ImmutableList.of(toFooConfig, toBarConfig)
+            getVariantsForGraphTraversal(_, _) >> ImmutableList.of(toFooConfig, toBarConfig)
             getAttributesSchema() >> EmptySchema.INSTANCE
         }
         attributesSchema.attribute(Attribute.of('key', String))
@@ -110,7 +110,7 @@ class LocalComponentDependencyMetadataTest extends Specification {
         toComponent.getConfiguration("bar") >> toBarConfig
 
         expect:
-        dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory)*.name as Set == [expected] as Set
+        dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())*.name as Set == [expected] as Set
 
         where:
         scenario                                         | queryAttributes                 | expected
@@ -140,7 +140,7 @@ class LocalComponentDependencyMetadataTest extends Specification {
         toComponent.getConfiguration("default") >> defaultConfig
 
         when:
-        dep.selectConfigurations(attributes(key: 'other'), toComponent, attributesSchema, factory)*.name as Set
+        dep.selectConfigurations(attributes(key: 'other'), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())*.name as Set
 
         then:
         def e = thrown(IncompatibleConfigurationSelectionException)
@@ -177,7 +177,7 @@ Configuration 'default': Required key 'other' and found incompatible value 'noth
         toComponent.getConfiguration("bar") >> toBarConfig
 
         when:
-        dep.selectConfigurations(attributes(key: 'something'), toComponent, attributesSchema, factory)*.name as Set
+        dep.selectConfigurations(attributes(key: 'something'), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())*.name as Set
 
         then:
         def e = thrown(IncompatibleConfigurationSelectionException)
@@ -202,7 +202,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
             isCanBeConsumed() >> true
         }
         def toComponent = Stub(ComponentResolveMetadata) {
-            getVariantsForGraphTraversal(_) >> ImmutableList.of(toFooConfig, toBarConfig)
+            getVariantsForGraphTraversal(_, _) >> ImmutableList.of(toFooConfig, toBarConfig)
             getAttributesSchema() >> attributesSchema
             getComponentId() >> Stub(ComponentIdentifier) {
                 getDisplayName() >> "<target>"
@@ -222,7 +222,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
 
         expect:
         try {
-            def result = dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory)*.name as Set
+            def result = dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())*.name as Set
             if (expected == null && result) {
                 throw new AssertionError("Expected an ambiguous result, but got $result")
             }
@@ -272,7 +272,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
             isCanBeConsumed() >> true
         }
         def toComponent = Stub(ComponentResolveMetadata) {
-            getVariantsForGraphTraversal(_) >> ImmutableList.of(toFooConfig, toBarConfig)
+            getVariantsForGraphTraversal(_, _) >> ImmutableList.of(toFooConfig, toBarConfig)
             getAttributesSchema() >> attributesSchema
             getComponentId() >> Stub(ComponentIdentifier) {
                 getDisplayName() >> "<target>"
@@ -292,7 +292,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
 
         expect:
         try {
-            def result = dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory)*.name as Set
+            def result = dep.selectConfigurations(attributes(queryAttributes), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())*.name as Set
             if (expected == null && result) {
                 throw new AssertionError("Expected an ambiguous result, but got $result")
             }
@@ -335,7 +335,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
         toComponent.getConfiguration("to") >> null
 
         when:
-        dep.selectConfigurations(attributes([:]), toComponent, attributesSchema, factory)
+        dep.selectConfigurations(attributes([:]), toComponent, attributesSchema, factory, TestUtil.experimentalFeatures())
 
         then:
         def e = thrown(ConfigurationNotFoundException)
@@ -400,7 +400,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
             isCanBeConsumed() >> true
         }
         def toComponent = Stub(ComponentResolveMetadata) {
-            getVariantsForGraphTraversal(_) >> ImmutableList.of(toFooConfig, toBarConfig)
+            getVariantsForGraphTraversal(_, _) >> ImmutableList.of(toFooConfig, toBarConfig)
             getAttributesSchema() >> EmptySchema.INSTANCE
         }
         def attributeSchemaWithCompatibility = new DefaultAttributesSchema(new ComponentAttributeMatcher(), TestUtil.instantiatorFactory())
@@ -416,7 +416,7 @@ Configuration 'bar': Required key 'something' and found incompatible value 'some
         toComponent.getConfiguration("bar") >> toBarConfig
 
         expect:
-        dep.selectConfigurations(attributes(queryAttributes), toComponent, attributeSchemaWithCompatibility, factory)*.name as Set == [expected] as Set
+        dep.selectConfigurations(attributes(queryAttributes), toComponent, attributeSchemaWithCompatibility, factory, TestUtil.experimentalFeatures())*.name as Set == [expected] as Set
 
         where:
         scenario                     | queryAttributes                 | expected

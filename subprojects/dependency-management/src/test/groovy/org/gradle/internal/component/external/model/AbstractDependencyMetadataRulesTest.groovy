@@ -259,6 +259,6 @@ abstract class AbstractDependencyMetadataRulesTest extends Specification {
         def componentSelector = newSelector(consumerIdentifier.group, consumerIdentifier.name, new DefaultMutableVersionConstraint(consumerIdentifier.version))
         def consumer = new LocalComponentDependencyMetadata(componentIdentifier, componentSelector, "default", attributes, null, [] as List, [], false, false, true, false)
 
-        consumer.selectConfigurations(attributes, immutable, schema, TestUtil.attributesFactory())[0]
+        consumer.selectConfigurations(attributes, immutable, schema, TestUtil.attributesFactory(), TestUtil.experimentalFeatures())[0]
     }
 }

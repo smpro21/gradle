@@ -20,6 +20,7 @@ import org.gradle.api.artifacts.component.ComponentSelector;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentSelector;
 import org.gradle.api.artifacts.component.ProjectComponentSelector;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
@@ -44,8 +45,8 @@ public class ConfigurationDependencyMetadataWrapper implements ModuleDependencyM
     }
 
     @Override
-    public List<ConfigurationMetadata> selectConfigurations(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory) {
-        return delegate.getMetadataForConfigurations(consumerAttributes, consumerSchema, componentId, configuration, targetComponent, attributesFactory);
+    public List<ConfigurationMetadata> selectConfigurations(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+        return delegate.getMetadataForConfigurations(consumerAttributes, consumerSchema, componentId, configuration, targetComponent, attributesFactory, experimentalFeatures);
     }
 
     @Override

@@ -28,6 +28,7 @@ import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.PublishArtifact;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.artifacts.configurations.OutgoingVariant;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
@@ -232,7 +233,7 @@ public class DefaultLocalComponentMetadata implements LocalComponentMetadata, Bu
     }
 
     @Override
-    public synchronized ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory) {
+    public synchronized ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         if (consumableConfigurations == null) {
             ImmutableList.Builder<ConfigurationMetadata> builder = new ImmutableList.Builder<ConfigurationMetadata>();
             for (DefaultLocalConfigurationMetadata metadata : allConfigurations.values()) {

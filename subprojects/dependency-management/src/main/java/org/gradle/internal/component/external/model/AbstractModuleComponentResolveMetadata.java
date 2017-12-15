@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.attributes.AttributeContainer;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.attributes.AttributeContainerInternal;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.EmptySchema;
@@ -156,7 +157,7 @@ abstract class AbstractModuleComponentResolveMetadata implements ModuleComponent
      */
     protected abstract DefaultConfigurationMetadata createConfiguration(ModuleComponentIdentifier componentId, String name, boolean transitive, boolean visible, ImmutableList<String> hierarchy, ComponentMetadataRules componentMetadataRules);
 
-    private ImmutableList<? extends ConfigurationMetadata> buildVariantsForGraphTraversal(List<? extends ComponentVariant> variants, ImmutableAttributesFactory attributesFactory) {
+    private ImmutableList<? extends ConfigurationMetadata> buildVariantsForGraphTraversal(List<? extends ComponentVariant> variants, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         if (variants.isEmpty()) {
             return ImmutableList.of();
         }
@@ -219,9 +220,9 @@ abstract class AbstractModuleComponentResolveMetadata implements ModuleComponent
     }
 
     @Override
-    public synchronized ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory) {
+    public synchronized ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         if (graphVariants == null) {
-            graphVariants = buildVariantsForGraphTraversal(variants, attributesFactory);
+            graphVariants = buildVariantsForGraphTraversal(variants, attributesFactory, experimentalFeatures);
         }
         return graphVariants;
     }

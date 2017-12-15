@@ -18,6 +18,7 @@ package org.gradle.internal.component.local.model;
 
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.component.ComponentSelector;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
@@ -54,8 +55,8 @@ public class DslOriginDependencyMetadataWrapper implements DslOriginDependencyMe
     }
 
     @Override
-    public List<ConfigurationMetadata> selectConfigurations(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory) {
-        return delegate.selectConfigurations(consumerAttributes, targetComponent, consumerSchema, attributesFactory);
+    public List<ConfigurationMetadata> selectConfigurations(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+        return delegate.selectConfigurations(consumerAttributes, targetComponent, consumerSchema, attributesFactory, experimentalFeatures);
     }
 
     @Override

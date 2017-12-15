@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import org.gradle.api.artifacts.ModuleIdentifier;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ComponentSelector;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.artifacts.ComponentSelectorConverter;
 import org.gradle.api.internal.artifacts.ResolvedConfigurationIdentifier;
 import org.gradle.api.internal.artifacts.dsl.ModuleReplacementsData;
@@ -61,11 +62,12 @@ class ResolveState {
     private final ModuleReplacementsData moduleReplacementsData;
     private final ComponentSelectorConverter componentSelectorConverter;
     private final ImmutableAttributesFactory attributesFactory;
+    private final ExperimentalFeatures experimentalFeatures;
 
     public ResolveState(IdGenerator<Long> idGenerator, ComponentResolveResult rootResult, String rootConfigurationName, DependencyToComponentIdResolver idResolver,
                         ComponentMetaDataResolver metaDataResolver, Spec<? super DependencyMetadata> edgeFilter, AttributesSchemaInternal attributesSchema,
                         ModuleExclusions moduleExclusions, ModuleReplacementsData moduleReplacementsData,
-                        ComponentSelectorConverter componentSelectorConverter, ImmutableAttributesFactory attributesFactory) {
+                        ComponentSelectorConverter componentSelectorConverter, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         this.idGenerator = idGenerator;
         this.idResolver = idResolver;
         this.metaDataResolver = metaDataResolver;
@@ -75,6 +77,7 @@ class ResolveState {
         this.moduleReplacementsData = moduleReplacementsData;
         this.componentSelectorConverter = componentSelectorConverter;
         this.attributesFactory = attributesFactory;
+        this.experimentalFeatures = experimentalFeatures;
         ComponentState rootVersion = getRevision(rootResult.getId());
         rootVersion.setMetaData(rootResult.getMetaData());
         root = new RootNode(idGenerator.generateId(), rootVersion, new ResolvedConfigurationIdentifier(rootVersion.getId(), rootConfigurationName), this);
@@ -194,5 +197,9 @@ class ResolveState {
 
     public ImmutableAttributesFactory getAttributesFactory() {
         return attributesFactory;
+    }
+
+    public ExperimentalFeatures getExperimentalFeatures() {
+        return experimentalFeatures;
     }
 }

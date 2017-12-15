@@ -17,6 +17,7 @@
 package org.gradle.internal.component.model;
 
 import org.gradle.api.artifacts.Dependency;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
@@ -27,8 +28,8 @@ import java.util.List;
 
 public abstract class AttributeConfigurationSelector implements DependencyMetadata {
 
-    public static ConfigurationMetadata selectConfigurationUsingAttributeMatching(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory) {
-        List<? extends ConfigurationMetadata> consumableConfigurations = targetComponent.getVariantsForGraphTraversal(attributesFactory);
+    public static ConfigurationMetadata selectConfigurationUsingAttributeMatching(ImmutableAttributes consumerAttributes, ComponentResolveMetadata targetComponent, AttributesSchemaInternal consumerSchema, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+        List<? extends ConfigurationMetadata> consumableConfigurations = targetComponent.getVariantsForGraphTraversal(attributesFactory, experimentalFeatures);
         AttributesSchemaInternal producerAttributeSchema = targetComponent.getAttributesSchema();
         AttributeMatcher attributeMatcher = consumerSchema.withProducer(producerAttributeSchema);
         ConfigurationMetadata fallbackConfiguration = targetComponent.getConfiguration(Dependency.DEFAULT_CONFIGURATION);
@@ -41,7 +42,7 @@ public abstract class AttributeConfigurationSelector implements DependencyMetada
         } else if (!matches.isEmpty()) {
             throw new AmbiguousConfigurationSelectionException(consumerAttributes, attributeMatcher, matches, targetComponent);
         } else {
-            throw new NoMatchingConfigurationSelectionException(consumerAttributes, attributeMatcher, targetComponent, attributesFactory);
+            throw new NoMatchingConfigurationSelectionException(consumerAttributes, attributeMatcher, targetComponent, attributesFactory, experimentalFeatures);
         }
     }
 }

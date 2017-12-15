@@ -24,6 +24,7 @@ import org.gradle.api.artifacts.ModuleDependency;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.artifacts.ivyservice.moduleconverter.dependencies.DependencyDescriptorFactory;
 import org.gradle.api.internal.attributes.AttributesSchemaInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
@@ -148,8 +149,8 @@ public class ClientModuleResolver implements ComponentMetaDataResolver {
         }
 
         @Override
-        public ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory) {
-            return delegate.getVariantsForGraphTraversal(attributesFactory);
+        public ImmutableList<? extends ConfigurationMetadata> getVariantsForGraphTraversal(ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+            return ImmutableList.of(); //always use the legacy behavior for the deprecated client module concept
         }
 
         @Override

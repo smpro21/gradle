@@ -16,6 +16,7 @@
 
 package org.gradle.internal.component;
 
+import org.gradle.api.internal.ExperimentalFeatures;
 import org.gradle.api.internal.attributes.AttributeContainerInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
 import org.gradle.internal.component.model.AttributeMatcher;
@@ -32,13 +33,13 @@ public class NoMatchingConfigurationSelectionException extends RuntimeException 
     public NoMatchingConfigurationSelectionException(
         AttributeContainerInternal fromConfigurationAttributes,
         AttributeMatcher attributeMatcher,
-        ComponentResolveMetadata targetComponent, ImmutableAttributesFactory attributesFactory) {
-        super(generateMessage(fromConfigurationAttributes, attributeMatcher, targetComponent, attributesFactory));
+        ComponentResolveMetadata targetComponent, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+        super(generateMessage(fromConfigurationAttributes, attributeMatcher, targetComponent, attributesFactory, experimentalFeatures));
     }
 
-    private static String generateMessage(AttributeContainerInternal fromConfigurationAttributes, AttributeMatcher attributeMatcher, ComponentResolveMetadata targetComponent, ImmutableAttributesFactory attributesFactory) {
+    private static String generateMessage(AttributeContainerInternal fromConfigurationAttributes, AttributeMatcher attributeMatcher, ComponentResolveMetadata targetComponent, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         Map<String, ConfigurationMetadata> configurations = new TreeMap<String, ConfigurationMetadata>();
-        for (ConfigurationMetadata configurationMetadata : targetComponent.getVariantsForGraphTraversal(attributesFactory)) {
+        for (ConfigurationMetadata configurationMetadata : targetComponent.getVariantsForGraphTraversal(attributesFactory, experimentalFeatures)) {
             configurations.put(configurationMetadata.getName(), configurationMetadata);
         }
         TreeFormatter formatter = new TreeFormatter();
