@@ -22,6 +22,7 @@ import org.gradle.api.artifacts.DependencyConstraintsMetadata;
 import org.gradle.api.artifacts.DirectDependenciesMetadata;
 import org.gradle.api.artifacts.DirectDependencyMetadata;
 import org.gradle.api.artifacts.VariantMetadata;
+import org.gradle.api.attributes.AttributeContainer;
 import org.gradle.api.internal.attributes.ImmutableAttributesFactory;
 import org.gradle.internal.component.external.model.MutableModuleComponentResolveMetadata;
 import org.gradle.internal.reflect.Instantiator;
@@ -55,5 +56,10 @@ public class VariantMetadataAdapter implements VariantMetadata {
     @Override
     public void withDependencyConstraints(Action<DependencyConstraintsMetadata> action) {
         metadata.addDependencyConstraintMetadataRule(name, action, instantiator, dependencyMetadataNotationParser, dependencyConstraintMetadataNotationParser);
+    }
+
+    @Override
+    public void withAttributes(Action<? super AttributeContainer> action) {
+        metadata.addAttributesRule(name, action, attributesFactory);
     }
 }
