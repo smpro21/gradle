@@ -157,9 +157,17 @@ abstract class AbstractModuleComponentResolveMetadata implements ModuleComponent
      */
     protected abstract DefaultConfigurationMetadata createConfiguration(ModuleComponentIdentifier componentId, String name, boolean transitive, boolean visible, ImmutableList<String> hierarchy, ComponentMetadataRules componentMetadataRules);
 
+    /**
+     * If there are no variants defined in the metadata, but the implementation knows how to provide variants it can do that here.
+     * If it can not provide variants, an empty list needs to be returned to fall back to traditional configuration selection.
+     */
+    protected ImmutableList<? extends ConfigurationMetadata> maybeDeriveVariants(ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
+        return ImmutableList.of();
+    }
+
     private ImmutableList<? extends ConfigurationMetadata> buildVariantsForGraphTraversal(List<? extends ComponentVariant> variants, ImmutableAttributesFactory attributesFactory, ExperimentalFeatures experimentalFeatures) {
         if (variants.isEmpty()) {
-            return ImmutableList.of();
+            return maybeDeriveVariants(attributesFactory, experimentalFeatures);
         }
         List<VariantBackedConfigurationMetadata> configurations = new ArrayList<VariantBackedConfigurationMetadata>(variants.size());
         for (ComponentVariant variant : variants) {
