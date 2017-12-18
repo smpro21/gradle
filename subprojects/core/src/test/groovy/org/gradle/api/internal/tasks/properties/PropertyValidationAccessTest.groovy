@@ -25,7 +25,6 @@ import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
-import org.gradle.util.ToBeImplemented
 import spock.lang.Specification
 
 import java.nio.file.Path
@@ -100,7 +99,6 @@ class PropertyValidationAccessTest extends Specification {
         String nonAnnotated
     }
 
-    @ToBeImplemented("TODO wolfs")
     def "analyzes type arguments of Iterables"() {
         def propertyValidationAccess = new PropertyValidationAccess()
         def problems = new HashMap<String, Boolean>()
@@ -108,11 +106,10 @@ class PropertyValidationAccessTest extends Specification {
         propertyValidationAccess.collectTaskValidationProblems(TaskWithIterableNested, problems)
 
         then:
-        problems.keySet().empty
-//            validationProblems(TaskWithIterableNested, [
-//                "property 'beans.nonAnnotated' is not annotated with an input or output annotation",
-//                "property 'beanList.nonAnnotated' is not annotated with an input or output annotation"
-//        ])
+        problems.keySet() == validationProblems(TaskWithIterableNested, [
+                "property 'beans.nonAnnotated' is not annotated with an input or output annotation",
+                "property 'beanList.nonAnnotated' is not annotated with an input or output annotation"
+        ])
     }
 
     static class TaskWithNonAnnotatedProperty extends DefaultTask {

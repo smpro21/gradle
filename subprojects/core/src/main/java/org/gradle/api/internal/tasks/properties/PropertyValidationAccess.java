@@ -18,6 +18,7 @@ package org.gradle.api.internal.tasks.properties;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 import org.gradle.api.NonNullApi;
 import org.gradle.api.Task;
 import org.gradle.api.file.FileCollection;
@@ -36,6 +37,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Queue;
@@ -90,8 +92,11 @@ public class PropertyValidationAccess {
             }
             if (metadata.isAnnotationPresent(Nested.class)) {
                 Class<?> declaredType = metadata.getDeclaredType();
-                // FIXME wolfs Validate nested Iterables
-                if (!Iterable.class.isAssignableFrom(declaredType)) {
+                if (Iterable.class.isAssignableFrom(declaredType)) {
+                    TypeToken<Iterable> typeToken = (TypeToken<Iterable>) TypeToken.of(metadata.getMethod().getGenericReturnType());
+                    ParameterizedType type = (ParameterizedType) typeToken.getSupertype(Iterable.class).getType();
+                    queue.add(new ClassNode(qualifiedPropertyName, TypeToken.of(type.getActualTypeArguments()[0]).getRawType()));
+                } else {
                     queue.add(new ClassNode(qualifiedPropertyName, declaredType));
                 }
             }
