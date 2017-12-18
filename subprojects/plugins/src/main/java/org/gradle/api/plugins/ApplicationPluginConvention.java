@@ -16,6 +16,7 @@
 
 package org.gradle.api.plugins;
 
+import org.gradle.api.Incubating;
 import org.gradle.api.Project;
 import org.gradle.api.file.CopySpec;
 
@@ -82,11 +83,18 @@ public class ApplicationPluginConvention {
 
     /**
      * Directory to place executables in
+     * @since 4.5
      */
+    @Incubating
     public String getExecutableDir() {
         return executableDir;
     }
 
+    /**
+     * Directory to place executables in
+     * @since 4.5
+     */
+    @Incubating
     public void setExecutableDir(String executableDir) {
         this.executableDir = executableDir;
     }

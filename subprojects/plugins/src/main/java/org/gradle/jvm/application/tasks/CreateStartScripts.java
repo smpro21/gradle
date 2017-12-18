@@ -176,12 +176,19 @@ public class CreateStartScripts extends ConventionTask {
 
     /**
      * The directory to write the scripts into in the distribution.
+     * @since 4.5
      */
+    @Incubating
     @Input
     public String getExecutableDir() {
         return executableDir;
     }
 
+    /**
+     * The directory to write the scripts into in the distribution.
+     * @since 4.5
+     */
+    @Incubating
     public void setExecutableDir(String executableDir) {
         this.executableDir = executableDir;
     }
