@@ -108,7 +108,7 @@ class ApplicationPluginTest extends AbstractProjectBuilderSpec {
 
         then:
         def startScripts = project.tasks[ApplicationPlugin.TASK_START_SCRIPTS_NAME]
-        startScripts.scriptDir == "custom_bin"
+        startScripts.executableDir == "custom_bin"
     }
 
     public void "mainClassName in project delegates to main in run task"() {

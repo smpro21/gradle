@@ -167,7 +167,7 @@ public class ApplicationPlugin implements Plugin<Project> {
             }
         });
 
-        startScripts.getConventionMapping().map("scriptDir", new Callable<Object>() {
+        startScripts.getConventionMapping().map("executableDir", new Callable<Object>() {
             @Override
             public Object call() throws Exception {
                 return pluginConvention.getExecutableDir();

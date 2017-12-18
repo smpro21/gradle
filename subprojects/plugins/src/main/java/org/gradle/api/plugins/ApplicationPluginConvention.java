@@ -28,7 +28,7 @@ public class ApplicationPluginConvention {
     private String applicationName;
     private String mainClassName;
     private Iterable<String> applicationDefaultJvmArgs = new ArrayList<String>();
-    private String executableDir;
+    private String executableDir = "bin";
     private CopySpec applicationDistribution;
 
     private final Project project;
@@ -36,7 +36,6 @@ public class ApplicationPluginConvention {
     public ApplicationPluginConvention(Project project) {
         this.project = project;
         applicationDistribution = project.copySpec();
-        executableDir = "bin";
     }
 
     /**
